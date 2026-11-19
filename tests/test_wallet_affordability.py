@@ -23,3 +23,12 @@ def test_balance_less_than_price():
     result = can_afford(500, 1000)
 
     assert result is False
+
+@pytest.mark.parametrize(
+    "balance_cents, price_cents",
+    [
+        (-1, 100),
+        (100, -1),
+        (-1, -1),
+    ]
+)
