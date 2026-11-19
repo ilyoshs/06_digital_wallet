@@ -1,28 +1,25 @@
-from src.wallet_affordability import can_afford
 import pytest
-
-def test_balance_greater_than_price():
-    result = can_afford(1000, 500)
-
-    assert result is True
+from src.wallet_affordability import can_afford
 
 
-def test_balance_equals_price():
-    result = can_afford(1000, 1000)
+@pytest.mark.parametrize(
+    "balance_cents, price_cents, expected",
+    [
+        (1000, 500, True),
+        (1000, 1000, True),
+        (0, 0, True),
+        (500, 1000, False),
+    ]
+)
+def test_can_afford_returns_expected_result(
+    balance_cents,
+    price_cents,
+    expected
+):
+    result = can_afford(balance_cents, price_cents)
 
-    assert result is True
+    assert result is expected
 
-
-def test_zero_balance_zero_price():
-    result = can_afford(0, 0)
-
-    assert result is True
-
-
-def test_balance_less_than_price():
-    result = can_afford(500, 1000)
-
-    assert result is False
 
 @pytest.mark.parametrize(
     "balance_cents, price_cents",
@@ -35,6 +32,7 @@ def test_balance_less_than_price():
 def test_negative_values_raise_value_error(balance_cents, price_cents):
     with pytest.raises(ValueError):
         can_afford(balance_cents, price_cents)
+
 
 @pytest.mark.parametrize(
     "balance_cents, price_cents",
