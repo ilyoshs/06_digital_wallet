@@ -20,36 +20,24 @@ def test_valid_withdrawals_return_expected_balance(
 
 
 @pytest.mark.parametrize(
-    "balance_cents, amount_cents",
+    "balance_cents, amount_cents, expected_exception",
     [
-        (-100, 50),
-        (1000, 0),
-        (1000, -50),
-        (1000, 1500),
+        (-100, 50, ValueError),
+        (1000, 0, ValueError),
+        (1000, -50, ValueError),
+        (1000, 1500, ValueError),
+        ("1000", 500, TypeError),
+        (1000, "500", TypeError),
+        (1000.5, 500, TypeError),
+        (1000, 500.5, TypeError),
+        (True, 500, TypeError),
+        (1000, False, TypeError),
     ]
 )
-def test_invalid_values_raise_value_error(
+def test_invalid_inputs_raise_exception(
     balance_cents,
-    amount_cents
+    amount_cents,
+    expected_exception
 ):
-    with pytest.raises(ValueError):
-        withdraw(balance_cents, amount_cents)
-
-
-@pytest.mark.parametrize(
-    "balance_cents, amount_cents",
-    [
-        ("1000", 500),
-        (1000, "500"),
-        (1000.5, 500),
-        (1000, 500.5),
-        (True, 500),
-        (1000, False),
-    ]
-)
-def test_invalid_types_raise_type_error(
-    balance_cents,
-    amount_cents
-):
-    with pytest.raises(TypeError):
+    with pytest.raises(expected_exception):
         withdraw(balance_cents, amount_cents)

@@ -22,29 +22,23 @@ def test_can_afford_returns_expected_result(
 
 
 @pytest.mark.parametrize(
-    "balance_cents, price_cents",
+    "balance_cents, price_cents, expected_exception",
     [
-        (-1, 100),
-        (100, -1),
-        (-1, -1),
+        (-1, 100, ValueError),
+        (100, -1, ValueError),
+        (-1, -1, ValueError),
+        ("100", 50, TypeError),
+        (100, "50", TypeError),
+        (100.5, 50, TypeError),
+        (100, 50.5, TypeError),
+        (True, 50, TypeError),
+        (100, False, TypeError),
     ]
 )
-def test_negative_values_raise_value_error(balance_cents, price_cents):
-    with pytest.raises(ValueError):
-        can_afford(balance_cents, price_cents)
-
-
-@pytest.mark.parametrize(
-    "balance_cents, price_cents",
-    [
-        ("100", 50),
-        (100, "50"),
-        (100.5, 50),
-        (100, 50.5),
-        (True, 50),
-        (100, False),
-    ]
-)
-def test_invalid_type_raises_type_error(balance_cents, price_cents):
-    with pytest.raises(TypeError):
+def test_can_afford_invalid_inputs_raise_exception(
+    balance_cents,
+    price_cents,
+    expected_exception
+):
+    with pytest.raises(expected_exception):
         can_afford(balance_cents, price_cents)
