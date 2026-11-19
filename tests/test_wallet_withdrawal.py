@@ -21,3 +21,18 @@ def test_exact_balance_withdrawal_returns_zero():
     # Act & Assert
     assert withdraw(balance_cents, amount_cents) == 0
 
+@pytest.mark.parametrize(
+    "balance_cents, amount_cents",
+    [
+        (-100, 50),
+        (1000, 0),
+        (1000, -50),
+        (1000, 1500),
+    ]
+)
+def test_invalid_range_raises_value_error(balance_cents, amount_cents):
+    with pytest.raises(ValueError):
+        withdraw(balance_cents, amount_cents)
+
+
+
