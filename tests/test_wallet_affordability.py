@@ -32,3 +32,6 @@ def test_balance_less_than_price():
         (-1, -1),
     ]
 )
+def test_negative_values_raise_value_error(balance_cents, price_cents):
+    with pytest.raises(ValueError):
+        can_afford(balance_cents, price_cents)
