@@ -35,3 +35,18 @@ def test_balance_less_than_price():
 def test_negative_values_raise_value_error(balance_cents, price_cents):
     with pytest.raises(ValueError):
         can_afford(balance_cents, price_cents)
+
+@pytest.mark.parametrize(
+    "balance_cents, price_cents",
+    [
+        ("100", 50),
+        (100, "50"),
+        (100.5, 50),
+        (100, 50.5),
+        (True, 50),
+        (100, False),
+    ]
+)
+def test_invalid_type_raises_type_error(balance_cents, price_cents):
+    with pytest.raises(TypeError):
+        can_afford(balance_cents, price_cents)
