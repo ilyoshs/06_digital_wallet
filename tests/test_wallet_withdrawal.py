@@ -34,5 +34,20 @@ def test_invalid_range_raises_value_error(balance_cents, amount_cents):
     with pytest.raises(ValueError):
         withdraw(balance_cents, amount_cents)
 
+@pytest.mark.parametrize(
+    "balance_cents, amount_cents",
+    [
+        ("1000", 500),
+        (1000, "500"),
+        (1000.5, 500),
+        (1000, 500.5),
+        (True, 500),
+        (1000, False),
+    ]
+)
+def test_invalid_type_raises_type_error(balance_cents, amount_cents):
+    with pytest.raises(TypeError):
+        withdraw(balance_cents, amount_cents)
+
 
 
