@@ -11,7 +11,7 @@ from src.wallet_affordability import can_afford #imports the function we want to
         (500, 1000, False),
     ]
 )
-def test_can_afford_returns_expected_result(
+def test_can_afford_returns_expected_result( #the can_afford function with various inputs and checks if the output matches the expected result
     balance_cents,
     price_cents,
     expected
